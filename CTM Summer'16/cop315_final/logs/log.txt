@@ -1,0 +1,6 @@
+send to = 9716354559
+message = license plate: HRkapil 2016-07-18 19:18:50. Speed Violation: 51 http://localhost/?transid=11111111
+ 
+send to = 9716354559
+message = license plate: HRkapil 2016-07-18 19:18:50. Speed Violation: 51 http://localhost/?transid=11111111
+ 

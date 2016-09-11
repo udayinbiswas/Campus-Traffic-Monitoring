@@ -1,0 +1,13 @@
+requirements FLTK lib:
+
+sudo apt-get install libfltk1.3-dev
+sudo apt-get install libx11-dev
+sudo apt-get install libxinerama-dev
+sudo apt-get install libxft-dev
+
+
+
+compile command:
+
+g++ `fltk-config --cxxflags` filename.cpp `fltk-config --libs` -lX11 -ldl -lXext -lXinerama -lXft -lfontconfig -o out_file_name
+

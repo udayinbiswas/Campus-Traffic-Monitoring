@@ -1,0 +1,51 @@
+SQL trigger:
+
+
+CREATE OR REPLACE FUNCTION copy_entry_in_events_details1()
+  RETURNS trigger LANGUAGE plpgsql
+AS $$
+BEGIN
+  INSERT INTO lprs_db.smart_events(transid,licenseno,event_time,wwd_violation,speed_violation,speed_violation_avg , speed_value,speed_value_avg,lane_violation,park_violation,park_duration,vehicle_type,corres_transid, gateid ,gatename,rl_violation,since_redlight,traveltime,hotlist_violation,since_amberlight,since_greenlight,tilt_status)
+  VALUES (NEW.transid,NEW.licenseno,NEW.event_time,NEW.wwd_violation,NEW.speed_violation,NEW.speed_violation_avg ,NEW.speed_value,NEW.speed_value_avg,NEW.lane_violation,NEW.park_violation,NEW.park_duration,NEW.vehicle_type,NEW.corres_transid, NEW.gateid,NEW.gatename ,NEW.rl_violation,NEW.since_redlight,NEW.traveltime,NEW.hotlist_violation,NEW.since_amberlight,NEW.since_greenlight,NEW.tilt_status);
+  RETURN NULL;
+END $$;
+
+
+
+CREATE TRIGGER copy_trigger AFTER INSERT OR UPDATE
+ON lprs_db.event_details FOR EACH ROW EXECUTE PROCEDURE copy_entry_in_events_details1();
+
+
+
+
+(transid,licenseno,event_time,wwd_violation,speed_violation,speed_violation_avg , speed_value,speed_value_avg,lane_violation,park_violation,park_duration,vehicle_type,corres_transid, gateid character,gatename character,rl_violation,since_redlight,traveltime,hotlist_violation,since_amberlight,since_greenlight,tilt_status)
+
+
+
+
+CREATE TABLE lprs_db.smart_events (
+    transid character varying(32) NOT NULL,
+    licenseno character varying(64),
+    event_time timestamp without time zone,
+    wwd_violation integer,
+    speed_violation integer,
+    speed_violation_avg integer,
+    speed_value double precision,
+    speed_value_avg double precision,
+    lane_violation integer,
+    park_violation integer,
+    park_duration timestamp without time zone,
+    vehicle_type integer,
+    corres_transid character varying(32),
+    gateid character varying(64),
+    gatename character varying(64),
+    rl_violation integer,
+    since_redlight double precision,
+    traveltime double precision,
+    hotlist_violation integer,
+    since_amberlight double precision,
+    since_greenlight double precision,
+    tilt_status integer,
+    resolved integer NOT NULL DEFAULT 0,
+    resolved2 integer NOT NULL DEFAULT 0
+);

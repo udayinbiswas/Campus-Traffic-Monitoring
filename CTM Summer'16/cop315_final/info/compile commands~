@@ -1,0 +1,9 @@
+ g++ `fltk-config --cxxflags` testfltk.cpp `fltk-config --libs` -lX11 -ldl -lXext -lXinerama -lXft -lfontconfig -o snipp -lpqxx -lpq -I/opt/libpqxx/include/
+
+g++ `fltk-config --cxxflags` testfltk.cpp `fltk-config --libs` -lX11  -lXext -lXinerama -lXft -lfontconfig -o snipp -lpqxx -lpq -I/opt/libpqxx/include/ -L/opt/libpqxx/lib/
+
+
+compiled: 
+
+g++ `fltk-config --cxxflags` testfltk.cpp `fltk-config --libs` -lX11  -lXext -lXinerama -lXft -lfontconfig -lXcursor -o snipp -lpqxx -lpq -I/opt/libpqxx/include/ -L/opt/libpqxx/lib/
+

@@ -1,0 +1,42 @@
+Instructions for LED board display:
+
+1.How to send data to LED board?
+  Earlier we didnt know about serial communication so sent data through LED software TEJ F9 FRESH directly. 
+  Try to enclose what you want to display within <FZ> <FZ> so that there is a loop. The rest instructions are there in a file too.
+  
+  Got to know about serial port sniffers. When we send data through TEJ F9 software, we can see exactly what is being sent.
+  Install Serial Device Monitoring Studio (for Windows) to check what data is being sent in hexadecimal.
+  
+  Now we understood how serial communication occurs(hexadecimal/byte array) and it had a pattern for communication. Like it started
+  with ABC. You will get to know by serial port sniffer what bytearray to exactly transmit to LED board. Use RealTerm if you want to send
+  hexadecimal data and check it using Serial Device Monitoring Studio.
+  
+  For the python code db1.py, pyserial 3.1.1 package needs to be present. The code takes input from log3.txt which would contain the vehicle license
+  number and speed. Now take note of the port and baud rate. Port for my computer was COM3 but you need to change it accordingly as to where your
+  serial cable is attached. Baud rate is 19200, doesn't work for other rates like 9600.
+  
+  We also define timelog.txt which takes note of the time at which the code works(time of violation). eraseDisplay.py takes this time into 
+  consideration along with present time and if time exceeds 1 min, it wipes out data on LED board. Hence function is to clear up data after 1 min.
+  
+  Now the tasks you need to achieve(according to me offcourse, you would know better):
+  1.The python code(db1.py) to take input and display it on LED board runs only on a Windows system for now. You have to implement it on CentOs system.
+  2.You have to probably install cronjobs/inotifytools to make the python code run as soon as possible after the violation takes place in real.
+    The warning flash on LED board would be useless if the LED board displays the number and speed after the violator has already left the campus.
+  3.How to distinguish between residential and non-residential violators? Well we have been provided the campus database. It contains the phone
+  number and license number of the residential cars. So for SMS sending and LED board, identify whether a violator is residential/non-residential
+  and then send SMS if residential/ display on LED board if non-residential. So you need to scan through the database each time a violation occurs and
+  the python code is run.
+  4.Encrypt the database so that the data remains secure(Thats what we were told to do but you would know better.)
+  
+  We will give you the campus database later on when you need it.
+  Problems:
+  1. CentOS is able to run the same python code (db1.py) but doesn't actually send data to LED baord, whereas in the case of Windows system, it does.
+  2. Try to use Serial Port Sniffers for LInux os jus like we did Serial Monitoring Studio for Windows. A bit time consuming.
+  3. The LED board is a bit sloow to w. Whenever it loads new data, "SAVED DATA" will appear for 30s and then your input appears. So you have to 
+  3. LED board usually loads input data fed only after 30 seconds. These 30s, "SAVED DATA" appears on screen which is frustrating. You have to 
+  see how to remove/manage that knowing there is a time constraint when a non-residential violation takes place as the car can escape easily 
+  without the warning being displayed on LED board at that time.
+  
+  
+  
+  

@@ -1,0 +1,21 @@
+CREATE OR REPLACE FUNCTION copy_entry_in_sms_table()
+  RETURNS trigger LANGUAGE plpgsql
+AS $$
+  DECLARE phone character varying(17);
+  DECLARE emaill character varying(50);
+  DECLARE messagee varchar(500) := CAST(CAST('license plate: ' AS TEXT) || CAST(NEW.licenseno AS TEXT) ||  CAST(' ' AS TEXT) || CAST(NEW.event_time AS TEXT) || CAST('. Speed Violation: ' AS TEXT) || CAST(NEW.speed_value AS TEXT) || CAST(' http://localhost/?transid=' AS TEXT) || CAST(NEW.transid AS TEXT) AS VARCHAR);
+BEGIN
+    
+  SELECT phone_number INTO phone FROM registered_users WHERE vehicle_number='DL12DC0589';
+  SELECT email INTO emaill FROM registered_users WHERE vehicle_number='DL12DC0589';
+  
+  IF(NEW.speed_value >= 20) THEN
+     INSERT INTO lprs_db.smstable(vehicle_number,message,sent,phone_number,email,sent_email)
+      VALUES (NEW.licenseno,messagee,'0',phone,emaill,'0');
+  END IF;
+  RETURN NULL;
+  
+END $$;
+
+DROP TRIGGER IF EXISTS update_sms_table ON lprs_db.smart_events;
+CREATE TRIGGER update_sms_table AFTER INSERT OR UPDATE ON lprs_db.smart_events FOR EACH ROW EXECUTE PROCEDURE copy_entry_in_sms_table();

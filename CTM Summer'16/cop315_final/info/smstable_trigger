@@ -1,0 +1,24 @@
+CREATE OR REPLACE FUNCTION copy_entry_in_sms_table()
+  RETURNS trigger LANGUAGE plpgsql
+AS $$
+  DECLARE phone character varying(17);
+  DECLARE emaill character varying(50);
+  DECLARE id SERIAL;
+  DECLARE message varchar(500);
+BEGIN
+    
+  SELECT registered_users.phone_number INTO phone FROM registered_users WHERE vehicle_number='DL12DC0589';
+  SELECT registered_users.email INTO emaill FROM registered_users WHERE vehicle_number='DL12DC0589';
+  
+  SET id = SELECT MAX(id) FROM lprs_db.sms_table + 1
+
+  SET message = 'license plate: ' AND NEW.licenseno AND ' ' AND NEW.event_time AND '. Speed Violation: ' AND NEW.speed_value AND ' http://localhost/?transid=' AND NEW.transid
+  
+  INSERT INTO lprs_db.sms_table(id,vehicle_number,message,sent,phone_number,email,sent_email)
+  VALUES (@id,NEW.licenseno,@message,'0',@phone_number,@email,'0');
+  RETURN NULL;
+  
+END $$;
+
+
+CREATE OR REPLACE TRIGGER update_sms_table AFTER INSERT OR UPDATE ON lprs_db.event_details FOR EACH ROW EXECUTE PROCEDURE copy_entry_in_sms_table();

@@ -1,0 +1,7 @@
+* * * * * /root/Desktop/cop315_final/bin/sendSMS > /root/Desktop/cop315_final/logs/log2.txt
+ * * * * /root/Desktop/cop315_final/bin/updateSMStable
+for permissions
+. ~/.bashrc
+
+fixPerms
+
